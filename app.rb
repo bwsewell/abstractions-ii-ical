@@ -47,9 +47,13 @@ class App < Sinatra::Base
       rescue
         next
       end
+      presenters = [
+        event.dig('presenter','name'),
+        event.dig('second_presenter','name'),
+      ].compact
       ical_event.summary = event['title']
       ical_event.description = <<~BODY
-        #{event.dig('presenter','name')}
+        Presenters: #{presenters.join(', ')}
 
         #{event['body']}
       BODY
